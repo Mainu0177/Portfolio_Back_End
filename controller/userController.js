@@ -3,6 +3,7 @@ import ErrorHandler from "../middlewares/error.js"
 import {User } from "../models/userSchema.js"
 import {v2 as cloudinary} from "cloudinary"
 import { generateToken } from "../utils/jwtToken.js"
+import { sendEmail } from "../utils/sendEmail.js"
 
 export const register = catchAsyncErrors(async (req, res, next) => {
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -188,7 +189,25 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     }
     const resetToken = user.getResetPasswordToken();
     await user.save({ validateBeforeSave: false });
-    const resetPasswordUrl = `${process.env.DASHBOARD_URL}`
+    const resetPasswordUrl = `${process.env.DASHBOARD_URL}/password/reset/${resetToken}`;
+    const message = `Your Reset Password Token is:- \n\n ${resetPasswordUrl} \n\n If you've not request for this please ignore it.`
+
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: "Personal Portfolio Dashboard Recovery Password",
+            message,
+        });
+        res.status(200).json({
+            success: true,
+            message: `Email sent to ${user.email} successfully`,
+        })
+    } catch (error) {
+        user.resetPasswordExpire = undefined;
+        user.resetPasswordToken = undefined;
+        await user.save();
+        return next(new ErrorHandler(error.message, 500))
+    }
 })
 
 
