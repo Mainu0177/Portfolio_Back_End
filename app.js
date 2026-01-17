@@ -7,6 +7,8 @@ import dbConnection from './database/dbConnection.js';
 import { errorMiddleware } from './middlewares/error.js';
 import messageRouter from './router/messageRoutes.js'
 import userRouter from './router/userRoutes.js'
+import timelineRouter from './router/timelineRoutes.js'
+
 
 
 const app = express();
@@ -38,6 +40,7 @@ app.get('/', (req, res) => {
 
 app.use("/api/v1/message", messageRouter)
 app.use("/api/v1/user", userRouter)
+app.use("/api/v1/timeline", timelineRouter)
 
 dbConnection();
 

@@ -183,6 +183,8 @@ export const getUserForPortfolio = catchAsyncErrors(async (req, res, next) => {
 })
 
 export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
+    console.log("NEXT =>", next);
+    console.log("NEXT TYPE =>", typeof next);
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
         return next(new ErrorHandler("User not found!", 404));
@@ -210,5 +212,24 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     }
 })
 
+export const resetPassword = catchAsyncErrors(async (req, res, next) => {
+    const { token } = req.params;
+    const resetPasswordToken = crypto.createHash("sha256").update(token).digest("hex");
 
+    const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordExpire: { $gt: Date.now() }
+    });
+    if (!user) {
+        return next(new ErrorHandler("Reset password token is invalid or has been expired.", 400))
+    }
+    if (req.body.password !== req.body.confirmNewPassword) {
+        return next(new ErrorHandler("Password & confirm Password Do Not Match."));
+    }
+    user.password = req.body.password;
+    user.resetPasswordExpire = undefined;
+    user.resetPasswordToken = undefined;
+    await user.save();
+    generateToken(user, "Reset Password Successfully!", 200, res)
+})
 
