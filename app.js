@@ -5,10 +5,13 @@ import cookiesParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
 import dbConnection from './database/dbConnection.js';
 import { errorMiddleware } from './middlewares/error.js';
+
 import messageRouter from './router/messageRoutes.js'
 import userRouter from './router/userRoutes.js'
-import timelineRouter from './router/timelineRoutes.js'
-
+import timelineRouter from "./router/timelineRoutes.js"
+import applicationRoutes from "./router/softwareApplicationRoutes.js"
+import skillRoutes from "./router/skillRoute.js"
+import projectRoutes from "./router/projectRoute.js"
 
 
 const app = express();
@@ -40,7 +43,10 @@ app.get('/', (req, res) => {
 
 app.use("/api/v1/message", messageRouter)
 app.use("/api/v1/user", userRouter)
-app.use("/api/v1/timeline", timelineRouter)
+app.use("/api/v1/timeline",timelineRouter)
+app.use("/api/v1/software", applicationRoutes)
+app.use("/api/v1/skills", skillRoutes)
+app.use("/api/v1/projects", projectRoutes)
 
 dbConnection();
 
