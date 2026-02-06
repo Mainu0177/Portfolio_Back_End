@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 console.log()
 const dbConnection = () => {
-    mongoose.connect('mongodb://127.0.0.1:27017', {
+    mongoose.connect(process.env.MONGO_URL, {
         dbName: 'MY_PORTFOLIO',
     })
     .then(() => {
