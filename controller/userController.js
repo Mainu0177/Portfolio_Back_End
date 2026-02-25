@@ -65,6 +65,8 @@ export const register = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const login = catchAsyncErrors(async (req, res, next) => {
+    console.log("LOGIN HIT");
+    console.log("USER:", user);
     const { email, password } = req.body;
     if (!email || !password) {
         return next(new ErrorHandler("Email And Password Are Required!"));

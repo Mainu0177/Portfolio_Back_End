@@ -19,6 +19,7 @@ dotenv.config({ path: './config/config.env' });
 // console.log(process.env.PORT);
 
 // FRONTEND AND BACKEND URLS CONNECTION
+app.set("trust proxy", 1);
 app.use(cors({
         origin: [process.env.PORTFOLIO_URL, process.env.DASHBOARD_URL],
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
