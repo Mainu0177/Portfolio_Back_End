@@ -32,6 +32,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
         portfolioURL,
         githubURL,
         instagramURL,
+        facebookURL,
         twitterURL,
         linkedInURL,
     } = req.body;
@@ -45,6 +46,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
         portfolioURL,
         githubURL,
         instagramURL,
+        facebookURL,
         twitterURL,
         linkedInURL,
         avatar: {
@@ -107,7 +109,7 @@ export const updateProfile = catchAsyncErrors(async (req, res, next) => {
         aboutMe: req.body.aboutMe,
         portfolioURL: req.body.portfolioURL,
         githubURL: req.body.githubURL,
-        instagramURL: req.body.instagramURL,
+        facebookURL: req.body.facebookURL,
         twitterURL: req.body.twitterURL,
         linkedInURL: req.body.linkedInURL,
     }
