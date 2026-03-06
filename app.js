@@ -46,8 +46,8 @@ app.use("/api/v1/message", messageRouter)
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/timeline",timelineRouter)
 app.use("/api/v1/software", applicationRoutes)
-app.use("/api/v1/skills", skillRoutes)
-app.use("/api/v1/projects", projectRoutes)
+app.use("/api/v1/skill", skillRoutes)
+app.use("/api/v1/project", projectRoutes)
 
 dbConnection();
 
